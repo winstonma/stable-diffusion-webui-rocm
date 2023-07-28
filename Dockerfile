@@ -12,7 +12,7 @@ WORKDIR /opt
 
 RUN apt -y update
 
-RUN apt-get install -y --no-install-recommends libstdc++-12-dev ca-certificates wget gnupg2 gawk curl git libglib2.0-0 apt-utils python3.10-venv python3-pip libxml2-utils
+RUN apt-get install -y --no-install-recommends libstdc++-12-dev ca-certificates wget gnupg2 gawk curl git libglib2.0-0 apt-utils python3.10-venv python3-pip libxml2-utils google-perftools
 
 # Install AMD Driver
 RUN FILENAME=$(curl https://repo.radeon.com/amdgpu-install/latest/ubuntu/jammy/ | grep deb | xmllint --html --format --xpath "string(//a/@href)" - ) \
