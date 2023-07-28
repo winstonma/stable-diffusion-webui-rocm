@@ -26,20 +26,20 @@ RUN amdgpu-install -y --usecase=rocm
 # Install Pytorch
 RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm5.4.2
 
-RUN git clone -b $SD_BRANCH https://github.com/hydrian/stable-diffusion-webui.git /sd
+# Install Stable Diffusion WebUI
+ARG APP=/sd
 
-WORKDIR /sd
+RUN git clone -b $SD_BRANCH https://github.com/hydrian/stable-diffusion-webui.git ${APP}
 
-RUN 	apt-get autoremove -y && \
+WORKDIR ${APP}
+
+RUN apt-get autoremove -y && \
 	apt-get clean -y && \
 	rm -rf /var/lib/apt/lists/* && \
 	python3 -m venv venv && \
 	source venv/bin/activate && \
 	ln -s /usr/bin/python3 /usr/bin/python && \
 	python3 -m pip install --upgrade pip wheel
-	
-
-
  
 EXPOSE ${PORT}
 
