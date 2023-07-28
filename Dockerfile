@@ -33,6 +33,15 @@ RUN git clone -b $SD_BRANCH https://github.com/hydrian/stable-diffusion-webui.gi
 
 WORKDIR ${APP}
 
+RUN pip install -r requirements_versions.txt
+
+# Install Stable Diffusion Requirement file
+COPY prepare_environment.py ${APP}
+RUN python prepare_environment.py
+
+# Install base model (Please add any additional model)
+ADD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors ${APP}/models/Stable-diffusion
+
 RUN apt-get autoremove -y && \
 	apt-get clean -y && \
 	rm -rf /var/lib/apt/lists/* && \
