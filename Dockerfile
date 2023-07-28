@@ -14,6 +14,14 @@ RUN apt -y update
 
 RUN apt-get install -y --no-install-recommends libstdc++-12-dev ca-certificates wget gnupg2 gawk curl git libglib2.0-0 apt-utils python3.10-venv python3-pip libxml2-utils google-perftools
 
+RUN apt-get autoremove -y && \
+	apt-get clean -y && \
+	rm -rf /var/lib/apt/lists/* && \
+	python3 -m venv venv && \
+	source venv/bin/activate && \
+	ln -s /usr/bin/python3 /usr/bin/python && \
+	python3 -m pip install --upgrade pip wheel
+
 # Install AMD Driver
 RUN FILENAME=$(curl https://repo.radeon.com/amdgpu-install/latest/ubuntu/jammy/ | grep deb | xmllint --html --format --xpath "string(//a/@href)" - ) \
     && TEMP_DEB="$(mktemp)" \
@@ -41,14 +49,6 @@ RUN python prepare_environment.py
 
 # Install base model (Please add any additional model)
 ADD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors ${APP}/models/Stable-diffusion
-
-RUN apt-get autoremove -y && \
-	apt-get clean -y && \
-	rm -rf /var/lib/apt/lists/* && \
-	python3 -m venv venv && \
-	source venv/bin/activate && \
-	ln -s /usr/bin/python3 /usr/bin/python && \
-	python3 -m pip install --upgrade pip wheel
  
 EXPOSE ${PORT}
 
