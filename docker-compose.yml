@@ -10,7 +10,7 @@ services:
       # VERY COMMON NEED ENVIRONMENT VARIABLE
       - HSA_OVERRIDE_GFX_VERSION=10.3.0
       # Following line is needed to RX 5700
-      # - COMMANDLINE_ARGS='--precision full --no-half'
+      # - COMMANDLINE_ARGS=--precision full --no-half
     group_add:
       # Video Group Id: 44
       - 44
