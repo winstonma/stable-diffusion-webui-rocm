@@ -1,5 +1,5 @@
 FROM ubuntu:jammy
-ARG SD_BRANCH="rocm5.5"
+
 SHELL ["/bin/bash", "-c"]  
 ENV PORT=7860 \
     DEBIAN_FRONTEND=noninteractive \
@@ -29,7 +29,7 @@ RUN pip install torch torchvision torchaudio --index-url https://download.pytorc
 # Install Stable Diffusion WebUI
 ARG APP=/sd
 
-RUN git clone -b $SD_BRANCH https://github.com/hydrian/stable-diffusion-webui.git ${APP}
+RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui ${APP}
 
 WORKDIR ${APP}
 
