@@ -23,6 +23,9 @@ RUN FILENAME=$(curl https://repo.radeon.com/amdgpu-install/latest/ubuntu/jammy/ 
 
 RUN amdgpu-install -y --usecase=rocm
 
+# Install Pytorch
+RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm5.4.2
+
 RUN git clone -b $SD_BRANCH https://github.com/hydrian/stable-diffusion-webui.git /sd
 
 WORKDIR /sd
