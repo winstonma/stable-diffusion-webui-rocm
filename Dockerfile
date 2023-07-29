@@ -31,6 +31,14 @@ RUN FILENAME=$(curl https://repo.radeon.com/amdgpu-install/latest/ubuntu/jammy/ 
 
 RUN amdgpu-install -y --usecase=rocm
 
+# Add user to the render group if you're using Ubuntu20.04
+RUN usermod -a -G render root
+
+# To add future users to the video and render groups, run the following command:
+RUN echo 'ADD_EXTRA_GROUPS=1' | sudo tee -a /etc/adduser.conf
+RUN echo 'EXTRA_GROUPS=video' | sudo tee -a /etc/adduser.conf
+RUN echo 'EXTRA_GROUPS=render' | sudo tee -a /etc/adduser.conf
+
 # Install Pytorch
 RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm5.4.2
 
@@ -49,14 +57,6 @@ RUN python prepare_environment.py
 
 # Install base model (Please add any additional model)
 ADD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors ${APP}/models/Stable-diffusion
-
-# Add user to the render group if you're using Ubuntu20.04
-RUN usermod -a -G render root
-
-# To add future users to the video and render groups, run the following command:
-RUN echo 'ADD_EXTRA_GROUPS=1' | sudo tee -a /etc/adduser.conf
-RUN echo 'EXTRA_GROUPS=video' | sudo tee -a /etc/adduser.conf
-RUN echo 'EXTRA_GROUPS=render' | sudo tee -a /etc/adduser.conf
  
 EXPOSE ${PORT}
 
