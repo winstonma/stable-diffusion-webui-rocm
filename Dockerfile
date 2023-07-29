@@ -12,7 +12,19 @@ WORKDIR /opt
 
 RUN apt -y update
 
-RUN apt-get install -y --no-install-recommends libstdc++-12-dev ca-certificates wget gnupg2 gawk curl git libglib2.0-0 apt-utils python3.10-venv python3-pip libxml2-utils google-perftools
+RUN apt-get install -y --no-install-recommends libstdc++-12-dev \
+    ca-certificates \
+    wget \
+    gnupg2 \
+    gawk \
+    curl \
+    git \
+    libglib2.0-0 \
+    apt-utils \
+    python3.10-venv \
+    python3-pip \
+    libxml2-utils \
+    google-perftools
 
 RUN apt-get autoremove -y && \
 	apt-get clean -y && \
